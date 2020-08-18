@@ -1,6 +1,6 @@
 ## Project setup
 ```
-git clone https://github.com/CESTuto/UI_Assignment_1.git
+git clone https://github.com/nikhilraj01/UI_assignment.git
 git checkout origin/Assignment_branch
 ```
 ### Change directory to the root folder
