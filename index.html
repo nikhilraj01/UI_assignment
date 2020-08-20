@@ -61,16 +61,23 @@
     th{
       background-color: grey;
       color: black;
-     
+      font-size: 20px;
+      padding:18px;
+      border-bottom: solid 3px;
+      border-top: solid 3px;
     }
     td{
       cursor:pointer;
+      font-size: 15px;
+      padding:15px;
     }
     tr:hover{
       background-color:rgba(190, 190, 190, 0.692);
     }
     .fltable{
       max-height:300px;
+      width: 100%;
+      margin: auto;
       overflow:auto;
       border: 1px solid black;
       border-collapse: collapse;    
@@ -106,8 +113,7 @@
     .hovertext {
       visibility: hidden;
       position: absolute;
-      background-color: black;
-      color: #fff;
+      color: black;
       z-index: 1;
     }
     .icon:hover .hovertext {
@@ -127,55 +133,62 @@
       position: relative; 
       left:115; top: 0;
     }
-
+    a:hover{
+      text-decoration: none;
+      color: black;
+    }
+    a{
+      color: black;
+    }
 </style>
 
 <body onload="initFolders()">
   <div style="margin:5px;">
-    <nav class="navbar navbar-inverse navbar-static-top">
-      
-        <div>
-          <a style="font-size:xx-large;" href="http://localhost:9000/view"><i class="fa fa-folder-open  fa-2x" aria-hidden="true"></i>File Explorer </a>
-        </div>
-          <div class="input-container" style=" text-align: center; ">
-            <input type="text" placeholder="Search" style=" width: 300px; height: 30px; " >
-            <i style="background-color: white;" class="fa fa-search"></i>
-          </div>
-          <div style="padding-right: 50px;">
-            <input class="button" onclick="popfoldnm()" type="button" value="Create New Folder" style="float:right; padding: 10px 20px">
-            <button class="button" style="float: right; padding: 10px 20px; margin-right: 20px;">Upload a file</button>
-            <input type="file" id="uploadedFile" name="myfile" onchange="api_file_upload()"/>
-          </div>
-          
-        </nav>
-    </div>
+      <div>
+        <a style="font-size:xx-large; top: 100px;" href="http://localhost:9000/view">
+          <i class="fa fa-folder-open  fa-2x" aria-hidden="true"></i>File Explorer 
+        </a>
+      </div>
+      <div style="padding-right:50px; float:right;">
+        <input class="button" onclick="popfoldnm()" type="button" value="Create New Folder" style="border-radius: 18px;float:right; padding: 10px 20px">
+        <button class="button" style="border-radius: 18px;float:right; padding: 10px 20px; margin-right: 20px;">Upload a file</button>
+        <input type="file" id="uploadedFile" name="myfile" onchange="api_file_upload()"/>
+      </div>
+      <div class="input-container" style="float:right; padding-right: 150px; ">
+        <input type="text" placeholder="Search" style=" width: 300px; height: 30px; " >
+        <i style="background-color: white;" class="fa fa-search"></i>
+      </div> 
   </div>
+</div>
+<br><br>
 
-
-<div class="jumbotron"  style="padding:40px;">
-  <div style="font-size: x-large;"> Current Directory: <a href="http://localhost:9000/view">/Root</a>
+<hr style="width:100%; border-top: 3px solid #bbb;">
+<div>
+  <div style="font-size: x-large;padding-left:30px;"> Current Directory: <a href="http://localhost:9000/view">/Root</a>
     <ul id="dirList" style="padding: 0%; font-size: x-large; display: inline;">
-      
     </ul>
   </div>
-    <div style="text-align: right; padding-bottom: 20px;">
+  <div style="text-align: right;padding-right:30px; ">
     <div id="onselect" style="text-align: right; opacity: 0.0; display: inline-block; ">    
-      <i onclick="copyitem()" class="fa fa-files-o fa-2x icon" aria-hidden="true" style="padding: 10px 20px;"> <span class="hovertext"  style="font-size: 20px;" >Copy</span> </i>
-      <i onclick="pasteitem()" class="fa fa-clipboard fa-2x icon" aria-hidden="true" style="padding: 10px 50px"><span class="hovertext" style="font-size: 20px;padding: 0px;">Paste</span> </i>
+      <i title="Copy" onclick="copyitem()" class="fa fa-files-o fa-2x icon" aria-hidden="true" style="padding: 10px 20px;"> 
+        <span class="hovertext"  style="font-size: 20px; " >Copy</span> </i>
+      <i onclick="pasteitem()" class="fa fa-clipboard fa-2x icon" aria-hidden="true" style="padding: 10px 50px">
+        <span class="hovertext" style="font-size: 20px;padding: 0px;">Paste</span> </i>
     </div>
-    <input class="button" onclick="back()" type="button" value="Back">
+    <input class="button" onclick="back()" type="button" value="Back" style="border-radius: 18px;">
   </div>
-  <div id="fmListFolders" class=fltable >
-  </div>
-  <div id="contextMenu" class="context-menu">
-    <ul class="fa-ul">
-      <li onclick="moveitem()"><span class="fa-li"><i class="fa fa-scissors"></i></span>Cut</li>
-      <li onclick="copyitem()"><span class="fa-li"><i class="fa fa-files-o"></i></span>Copy</li>
-      <li onclick="pasteitem()"><span class="fa-li"><i class="fa fa-clipboard"></i></span>Paste</li>
-      <li onclick="poprenm()"><span class="fa-li"><i class="fa fa-pencil"></i></span>Rename</li>
-      <li  onclick="confirmdelete()"><span class="fa-li"><i  class="fa fa-trash"></i></span>Delete</li>
-    </ul>
-  </div>
+  <hr style="width:100%; border-top: 2px solid #bbb;">
+  <div id="fmListFolders" class=fltable ></div> 
+</div>
+
+<div id="contextMenu" class="context-menu">
+  <ul class="fa-ul">
+    <li onclick="moveitem()"><span class="fa-li"><i class="fa fa-scissors"></i></span>Cut</li>
+    <li onclick="copyitem()"><span class="fa-li"><i class="fa fa-files-o"></i></span>Copy</li>
+    <li onclick="pasteitem()"><span class="fa-li"><i class="fa fa-clipboard"></i></span>Paste</li>
+    <li onclick="poprenm()"><span class="fa-li"><i class="fa fa-pencil"></i></span>Rename</li>
+    <li  onclick="confirmdelete()"><span class="fa-li"><i  class="fa fa-trash"></i></span>Delete</li>
+  </ul>
 </div>
 
 <div>                 
@@ -208,7 +221,7 @@
 
 <div class="footer" style="border: 5px solid; margin-bottom: 5px; ">
   <a href="https://www.cesltd.com" target="_blank"><img src="https://www.cesltd.com/img/ces-logo.png"  ></a>
-  <h6 style="display: inline-block; padding-left: 450px;" >CES Copyright reserved 2018.<br>
+  <h6 style="display: inline-block; padding-left: 450px; padding-top: 10px;"  >CES Copyright reserved 2018.<br>
     This application is to be used for training and development purpose only</h6>  
   </div>
 </div>
