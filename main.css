@@ -11,3 +11,137 @@ h1 {
   .button{
     border-radius: 10px;
   }
+  .form-popup {
+    display: none;
+    position: fixed;
+    top : 250px;
+    left : 600px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  .form-container h1{
+    text-align: center;      
+  }
+  .form-container input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  .form-container .btn {
+    background-color: grey;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+  table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td{
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+  }
+  th{
+    background-color: grey;
+    color: black;
+    font-size: 20px;
+    padding:18px;
+    border-bottom: solid 3px;
+    border-top: solid 3px;
+  }
+  td{
+    cursor:pointer;
+    font-size: 15px;
+    padding:15px;
+  }
+  tr:hover{
+    background-color:rgba(190, 190, 190, 0.692);
+  }
+  .flTable{
+    max-height:300px;
+    width: 100%;
+    margin: auto;
+    overflow:auto;
+    border: 1px solid black;
+    border-collapse: collapse;    
+  }
+  .button {
+    padding: 12px 24px;
+    display: inline-block;
+    border-radius: 18px;
+  }
+  .button:hover {
+    opacity: 0.5;
+  }
+  .footer h6{
+    text-align: center;
+  }
+  .context-menu{
+    box-shadow:2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color:#ffffff;
+    border:1px solid #cccccc;
+    width:150px;
+    position:absolute;
+    top:0;
+    left:0;
+    display:none;
+  }
+  .context-menu li,i{
+    cursor:pointer;
+    padding:8px 15px;
+  }
+  .context-menu li:hover{
+    background-color:	#D3D3D3;
+  }
+  .hovertext {
+    visibility: hidden;
+    position: absolute;
+    color: black;
+    z-index: 1;
+  }
+  .icon:hover .hovertext {
+    visibility: visible;
+  }
+  ul#dirList li {
+    display:inline;
+    cursor:pointer;
+  }
+  #uploadedFile{
+    cursor: pointer;
+    opacity:0; 
+    float: right; 
+    font-size: 34px; 
+    width: 115px; 
+    cursor:pointer;  
+    position: relative; 
+    left:115; top: 0;
+  }
+  a:hover{
+    text-decoration: none;
+    color: black;
+  }
+  a:visited{
+    text-decoration: none;
+    color: black;
+  }
+  a{
+    color: black;
+  }
