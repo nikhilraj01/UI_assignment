@@ -25,7 +25,7 @@ app.get('/main.js', function(req, res){
 });
 
 app.get('/main.css', function(req, res){
-    sendFileContent(res, "main.js", "text/css");
+    sendFileContent(res, "main.css", "text/css");
 });
 
 function sendFileContent(response, fileName, contentType){
