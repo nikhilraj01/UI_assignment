@@ -1,14 +1,14 @@
-var curPath="";
+var currentPath="";
 var cm=document.getElementById("contextMenu");
 var selectedFilePath="";
 var fileName="";
 var moveOrCopy="";
 var fileToPaste="";
 var lastSelRow;
+var empty;
+var months=["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
 
-
-
-    function initFolders(path="/") { curPath=path;
+    function initFolders(path="/") { currentPath=path;
         fetch("http://localhost:9000/filemanager?mode=readfolder&path="+path)
         .then(function(response) {
             return response.json();
@@ -32,13 +32,19 @@ var lastSelRow;
                     nm = document.createElement("td");  
                     mod = document.createElement("td");
                     var path=element.attributes.path;
-                    row.addEventListener("dblclick", function(){
+                    row.addEventListener("dblclick", function()
+                    {
                         initFolders(path);
                     });
+                    row.addEventListener("keypress", function(e)
+                        {
+                            if ( e.keyCode == 13 ){
+                            initFolders(path);
+                        }});                    
                     row.addEventListener("contextmenu", (e)=>
                     {
                         fileName=e.target.textContent;
-                        selectedFilePath=curPath+fileName;
+                        selectedFilePath=currentPath+fileName;
                         e.preventDefault();
                         showContextMenu();
                         cm=document.getElementById("contextMenu");
@@ -50,23 +56,25 @@ var lastSelRow;
                         if(lastSelRow){
                             lastSelRow.style.opacity=1;
                             lastSelRow.style.border="black";
+                            lastSelRow.style.backgroundColor="white";
                         }
                         var onsel=document.getElementById("onselect");
                         onsel.style.opacity=1.0;
-                        row.style.opacity=0.6;
                         row.style.border="grey 3px solid";
+                        row.style.backgroundColor="rgba(190, 190, 190, 0.692)";
                         fileName=e.target.textContent;
-                        selectedFilePath=curPath+fileName;
-                        lastSelRow=row;
+                        selectedFilePath=currentPath+fileName;
+                        lastSelRow=row;    
                     });  
-                    nm.textContent= element.attributes.name;
-                    mod.textContent = element.attributes.modified.substring(0, 10);
+                    nm.textContent=element.attributes.name;
+                    mod.textContent=months[element.attributes.modified.substring(6,7)-1]+" "+element.attributes.modified.substring(8,10)+", "+element.attributes.modified.substring(0,4);
                     row.appendChild(nm);
                     row.appendChild(mod);
                     table.appendChild(row);
                 });
             }
             if(table.children.length==1){
+                empty="true";
                 var row=document.createElement("tr");                   
                 nm = document.createElement("td"); 
                 nm.textContent="The folder is empty";
@@ -76,7 +84,7 @@ var lastSelRow;
                 row.addEventListener("contextmenu", (e)=>
                     {
                         fileName=e.target.textContent;
-                        selectedFilePath=curPath+fileName;
+                        selectedFilePath=currentPath+fileName;
                         e.preventDefault();
                         showContextMenu();
                         cm=document.getElementById("contextMenu");
@@ -88,7 +96,7 @@ var lastSelRow;
         });
         var dirList=document.getElementById("dirList");
         dirList.innerHTML="";
-        var res = curPath.split("/");  
+        var res = currentPath.split("/");  
         var path;
         var str="";
         var pathArr=[];
@@ -118,6 +126,7 @@ var lastSelRow;
             if(lastSelRow){
                 lastSelRow.style.opacity=1;
                 lastSelRow.style.border="black";
+                lastSelRow.style.backgroundColor="white";
             }
             onsel.style.opacity=0.0;                  
         } 
@@ -125,11 +134,11 @@ var lastSelRow;
 
 function back()
 {
-    var new_path=curPath.substring(0,curPath.length-1);   
-    var n=new_path.lastIndexOf("/"); 
-    new_path=new_path.substring(0,n+1);;
-    if(new_path.lastIndexOf("/")!=-1){
-        initFolders(new_path);  
+    var newPath=currentPath.substring(0,currentPath.length-1);   
+    var n=newPath.lastIndexOf("/"); 
+    newPath=newPath.substring(0,n+1);;
+    if(newPath.lastIndexOf("/")!=-1){
+        initFolders(newPath);  
     } 
 }
 
@@ -139,23 +148,23 @@ function showContextMenu(show=true)
     cm.style.display=show? "block" : "none";
 }
 
-function popfoldnm() {
-    document.getElementById("fold_name").style.display = "block";
+function popNewFold() {
+    document.getElementById("foldName").style.display = "block";
   }
-function closepopfolder() {
-    document.getElementById("fold_name").style.display = "none";
+function closePopFolder() {
+    document.getElementById("foldName").style.display = "none";
 }
-function api_new_folder(){
-    fname=document.getElementById("foldername").value;
-    fetch("http://localhost:9000/filemanager?mode=addfolder&path="+(curPath)+"&name="+(fname))
+function newFolder(){
+    fname=document.getElementById("folderName").value;
+    fetch("http://localhost:9000/filemanager?mode=addfolder&path="+(currentPath)+"&name="+(fname))
     .then(function(response) {
-        initFolders(curPath);
+        initFolders(currentPath);
         })
-        closepopfolder();
+        closePopFolder();
 }
 
 
-function api_file_upload()
+function fileUpload()
 {
     var objFile={
         "id": "/Capture.PNG",
@@ -181,60 +190,64 @@ function api_file_upload()
 fetch('http://localhost:9000/filemanager', options);
 }
 
-function copyitem(){
+function copyItem(){
     moveOrCopy=1;
     fileToPaste=selectedFilePath;
 }
-function moveitem(){
+function moveItem(){
     moveOrCopy=2;
     fileToPaste=selectedFilePath;
 }
-function pasteitem(){
+function pasteItem(){
     if(moveOrCopy==1)
     {
-    fetch("http://localhost:9000/filemanager?mode=copy&source=" + (fileToPaste) + "&target="+ (curPath))
+        fetch("http://localhost:9000/filemanager?mode=copy&source=" + (fileToPaste) + "&target="+ (currentPath))
     .then(function(response) {
-        initFolders(curPath);
+        initFolders(currentPath);
         })
     }
     else if(moveOrCopy==2)
     {
-        fetch("http://localhost:9000/filemanager?mode=move&old=" + (fileToPaste) + "/&new=" + (curPath))
+        fetch("http://localhost:9000/filemanager?mode=move&old=" + (fileToPaste) + "/&new=" + (currentPath))
     .then(function(response) {
-        initFolders(curPath);
+        initFolders(currentPath);
         })
     }
-    else
-    alert("No item selected for pasting");
+    else{
+        alert("No item selected for pasting");
+    }
 }
 
-function poprenm() {
-    document.getElementById("item_rename").style.display = "block";
-  }
-function closepoprenm() {
-    document.getElementById("item_rename").style.display = "none";
+function popRename() {
+    if(empty!="true"){
+    document.getElementById("itemRename").style.display = "block";
+  }}
+function closePopRename() {
+    document.getElementById("itemRename").style.display = "none";
 }
 function renameitem()
 {
-    fname=document.getElementById("newfoldername").value;
+    fname=document.getElementById("newfolderName").value;
     fetch("http://localhost:9000/filemanager?mode=rename&old="+(selectedFilePath)+ "&new=" + (fname))
     .then(function(response) {
-        initFolders(curPath);
+        initFolders(currentPath);
         })
-        closepoprenm();    
+        closePopRename();    
 }
 
-function confirmdelete() {
-    document.getElementById("item_delete").style.display = "block";
-  }
-function closepopdelete() {
-    document.getElementById("item_delete").style.display = "none";
+function confirmDelete() 
+{
+    if(empty!="true"){
+        document.getElementById("itemDelete").style.display = "block";
+  }}
+function closePopDelete() {
+    document.getElementById("itemDelete").style.display = "none";
 }
-function deleteitem()
+function deleteItem()
 {
     fetch("http://localhost:9000/filemanager?mode=delete&path="+(selectedFilePath))
     .then(function(response) {
-        initFolders(curPath);
+        initFolders(currentPath);
         })
-        closepopdelete();
+        closePopDelete();
 }
