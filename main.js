@@ -60,7 +60,17 @@ function initFolders(path="/") { currentPath=path;
                         var img=path.substring(path.length-3,path.length);
                         if(img.toUpperCase()=="PNG" || img.toUpperCase()=="JPG" )
                         {                                
-                            window.open("http://localhost:9000/filemanager?mode=getimage&path="+path+"&thumbnail=true", "_target");
+                            var modal = document.getElementById("Modal");
+                            modal.style.display = "block";
+                            var modalImg = document.getElementById("img");
+                            var imgCaption = document.getElementById("caption");
+                            imgCaption.innerHTML = path;
+                            modalImg.src = "http://localhost:9000/filemanager?mode=getimage&path="+path+"&thumbnail=true";
+                            var span = document.getElementsByClassName("close")[0];
+                            span.onclick = function()
+                            {
+                                modal.style.display = "none";
+                            }
                         }
                         else
                         {
