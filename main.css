@@ -86,14 +86,14 @@ h1 {
     margin-right:7; 
     height: 350px;
   }
-  .detailsCont{
-    border:1.5px solid black; 
+  .details-container{
+    border:2px solid black; 
     width:17%; 
     height:350px; 
     margin-left:5; 
     float:left;
   }
-  .detailsTab{
+  .details-tab{
     font-weight: bold;
     font-size: 20px;
     color:black;
@@ -103,7 +103,7 @@ h1 {
     width: 100%; 
     margin-top:0; 
     height: 63px; 
-    border: 1px solid black;
+    border: 2px solid black;
     border-bottom: solid 2px;
     border-top: solid 1px;
   }

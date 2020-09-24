@@ -180,6 +180,8 @@ window.addEventListener("click", (e)=>
             }
             onsel.style.opacity=0.0;                  
         } 
+        details=getElementById("details")
+        details.style.display="none";
 });
 function back()
 {
@@ -290,11 +292,34 @@ function deleteItem()
         })
         closePopDelete();
 }
-function getInfo(){
-    fetch("http://localhost:9000/filemanager?mode=getinfo&path="+(selectedFilePath))
-    .then(function(response){
-        var info=response;       
-        
-        console.log(info);
-    })
+const getInfo = async()=>{
+    var info=""
+     await fetch("http://localhost:9000/filemanager?mode=getinfo&path="+(selectedFilePath))
+     .then(response => response.text())
+     .then(data => JSON.parse(data))
+     .then(data => info=data.data);
+     var details = document.getElementById("details");
+     details.textContent=""  
+     var name = document.createElement("li");
+     var path = document.createElement("li");
+     var created = document.createElement("li");
+     var modified = document.createElement("li");
+     var type = document.createElement("li");
+     
+     name.textContent="Name: "+ info.attributes.name;
+     path.textContent="Location: "+ info.attributes.path;
+     type.textContent="Type: "+ info.type;
+     created.textContent="Date Created: "+ getDate(info.attributes.created)
+     modified.textContent="Date Modified: "+ getDate(info.attributes.modified)
+
+     details.appendChild(name);
+     details.appendChild(path);
+     details.appendChild(type);
+     details.appendChild(created);
+     details.appendChild(modified);
+}
+
+function getDate(str){
+    var dt=months[str.substring(6,7)-1]+" "+str.substring(8,10)+", "+str.substring(0,4);
+    return dt;
 }
